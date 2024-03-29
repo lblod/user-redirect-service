@@ -2,7 +2,8 @@ defmodule Dispatcher do
   use Matcher
   define_accept_types [
     html: [ "text/html", "application/xhtml+html" ],
-    json: [ "application/json", "application/vnd.api+json" ]
+    json: [ "application/json", "application/vnd.api+json" ],
+    any: [ "*/*" ],
   ]
 
   @any %{}
@@ -20,6 +21,10 @@ defmodule Dispatcher do
   #
   # Run `docker-compose restart dispatcher` after updating
   # this file.
+
+  get "/redirects/*path",  %{ accept: [:any], layer: :services} do
+    Proxy.forward conn, path, "http://resource/redirects/"
+  end
 
   match "/*_", %{ layer: :not_found } do
     send_resp( conn, 404, "Route not found.  See config/dispatcher.ex" )

@@ -1,7 +1,21 @@
 {
   "version": "0.1",
-  "prefixes": {
-  },
+  "prefixes": {},
   "resources": {
+    "redirects": {
+      "name": "redirect",
+      "class": "ext:IntentBasedRedirect",
+      "attributes": {
+        "intent": {
+          "type": "string",
+          "predicate": "ext:Intent"
+        },
+        "redirectUrl": {
+          "type": "string",
+          "predicate": "ext:targetString"
+        }
+      },
+      "new-resource-base": "http://mu.semte.ch/redirects"
+    }
   }
 }
