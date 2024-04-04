@@ -1,21 +1,23 @@
 {
   "version": "0.1",
-  "prefixes": {},
+  "prefixes": {
+    "ext": "http://mu.semte.ch/vocabularies/ext/"
+  },
   "resources": {
     "redirects": {
-      "name": "redirect",
-      "class": "ext:IntentBasedRedirect",
+      "class": "ext:Intent",
       "attributes": {
         "intent": {
           "type": "string",
-          "predicate": "ext:Intent"
+          "predicate": "ext:intentName"
         },
-        "redirectUrl": {
-          "type": "string",
-          "predicate": "ext:targetString"
+        "redirect-url": {
+          "type": "uri-set",
+          "predicate": "ext:redirectUrls"
         }
       },
-      "new-resource-base": "http://mu.semte.ch/redirects"
+      "relationships": {},
+      "new-resource-base": "http://data.yourdomain.info/intents/"
     }
   }
 }
