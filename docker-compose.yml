@@ -1,4 +1,4 @@
-version: '3.4'
+version: "3.4"
 
 services:
   identifier:
@@ -13,7 +13,7 @@ services:
       - resource:resource
     volumes:
       - ./config/dispatcher:/config
-  database:
+  triplestore:
     image: redpencil/virtuoso:1.2.0-rc.1
     environment:
       SPARQL_UPDATE: "true"
@@ -21,6 +21,24 @@ services:
     volumes:
       - ./data/db:/data
       - ./config/virtuoso/virtuoso.ini:/data/virtuoso.ini
+  delta-notifier:
+    image: semtech/mu-delta-notifier:0.1.0
+    volumes:
+      - ./config/delta:/config
+    labels:
+      - "logging=true"
+  database:
+    image: semtech/mu-authorization:0.6.0-beta.8
+    environment:
+      MU_SPARQL_ENDPOINT: "http://triplestore:8890/sparql"
+      ERROR_ON_UNWRITTEN_DATA: "true"
+      LOG_OUTGOING_SPARQL_QUERIES: "true"
+      LOG_INCOMING_SPARQL_QUERIES: "true"
+      LOG_ERRORS: "true"
+    volumes:
+      - ./config/authorization:/config
+    labels:
+      - "logging=true"
   resource:
     image: semtech/mu-cl-resources:1.22.2
     links:

@@ -22,7 +22,7 @@ defmodule Dispatcher do
   # Run `docker-compose restart dispatcher` after updating
   # this file.
 
-  get "/redirects/*path",  %{ accept: [:any], layer: :services} do
+  match "/redirects/*path",  %{ accept: [:any], layer: :services} do
     Proxy.forward conn, path, "http://resource/redirects/"
   end
 
